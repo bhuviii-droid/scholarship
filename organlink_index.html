@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="OrganLink educational organ donor and finder website prototype.">
+  <title>OrganLink | Organ Donor & Finder</title>
+  <style>
+    :root {
+      --navy:#10243a; --blue:#176b87; --teal:#18a999; --mint:#e9f8f5;
+      --ink:#1c2b39; --muted:#64748b; --line:#e2e8f0; --paper:#f6f9fc;
+      --white:#fff; --red:#b42318; --shadow:0 14px 40px rgba(16,36,58,.09);
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--ink);background:var(--paper);line-height:1.6}
+    a{color:inherit;text-decoration:none}
+    button,input,select,textarea{font:inherit}
+    .container{width:min(1120px,92%);margin:auto}
+    header{background:rgba(255,255,255,.96);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:10;backdrop-filter:blur(12px)}
+    .nav{height:72px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+    .brand{display:flex;align-items:center;gap:10px;font-size:1.25rem;font-weight:850;color:var(--navy)}
+    .brand-mark{display:grid;place-items:center;width:38px;height:38px;border-radius:12px;background:var(--mint);color:var(--teal);font-size:1.3rem}
+    nav{display:flex;gap:24px;align-items:center;color:#405267;font-size:.94rem;font-weight:600}
+    nav a:hover{color:var(--teal)}
+    .btn{display:inline-flex;align-items:center;justify-content:center;border:0;border-radius:10px;padding:11px 18px;font-weight:750;cursor:pointer;transition:.2s}
+    .btn-primary{background:var(--teal);color:white}
+    .btn-primary:hover{background:#128c80;transform:translateY(-1px)}
+    .btn-outline{border:1px solid #cbd5e1;background:white;color:var(--navy)}
+    .btn-outline:hover{border-color:var(--teal);color:var(--teal)}
+    .menu-toggle{display:none;background:white;border:1px solid var(--line);border-radius:8px;padding:8px 12px}
+    .hero{background:linear-gradient(120deg,#10243a 0%,#164d68 60%,#147f83 100%);color:white;padding:82px 0 76px;overflow:hidden}
+    .hero-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:50px;align-items:center}
+    .eyebrow{display:inline-block;color:#a8f0df;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);padding:6px 12px;border-radius:30px;font-size:.82rem;font-weight:750;letter-spacing:.04em}
+    h1{font-size:clamp(2.4rem,5vw,4.4rem);line-height:1.08;letter-spacing:-.04em;margin:20px 0}
+    .hero p{font-size:1.08rem;color:#d8e8ef;max-width:620px}
+    .hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+    .hero .btn-outline{background:transparent;border-color:#8eabb9;color:white}
+    .hero-art{min-height:300px;display:grid;place-items:center;position:relative}
+    .heart{width:230px;height:230px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.18);font-size:7rem;box-shadow:0 0 0 28px rgba(255,255,255,.035),0 0 0 58px rgba(255,255,255,.025)}
+    .float-note{position:absolute;background:white;color:var(--navy);padding:12px 16px;border-radius:13px;box-shadow:var(--shadow);font-weight:750}
+    .float-note.one{top:28px;right:0}.float-note.two{bottom:25px;left:0}
+    .notice{margin-top:-22px;position:relative;background:#fff8e8;border:1px solid #f5d99b;color:#72551b;padding:14px 18px;border-radius:12px;font-size:.9rem}
+    section{padding:72px 0}
+    .section-head{text-align:center;max-width:700px;margin:0 auto 34px}
+    .section-head .kicker{color:var(--teal);font-size:.8rem;font-weight:850;text-transform:uppercase;letter-spacing:.12em}
+    h2{color:var(--navy);font-size:clamp(1.8rem,3vw,2.6rem);line-height:1.2;margin:8px 0 12px}
+    .section-head p,.muted{color:var(--muted)}
+    .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .step,.panel,.feature{background:white;border:1px solid var(--line);border-radius:16px;padding:24px;box-shadow:0 4px 18px rgba(16,36,58,.035)}
+    .step-icon,.feature-icon{width:48px;height:48px;border-radius:13px;background:var(--mint);display:grid;place-items:center;font-size:1.4rem;margin-bottom:15px}
+    h3{color:var(--navy);margin:0 0 8px;font-size:1.12rem}
+    .step p,.feature p{margin:0;color:var(--muted);font-size:.94rem}
+    .work-area{background:#eef4f8}
+    .tabs{display:flex;gap:8px;justify-content:center;margin-bottom:24px;flex-wrap:wrap}
+    .tab{border:1px solid var(--line);background:white;padding:10px 18px;border-radius:30px;font-weight:750;color:#506176;cursor:pointer}
+    .tab.active{background:var(--navy);border-color:var(--navy);color:white}
+    .form-wrap{max-width:850px;margin:auto}
+    .panel{padding:30px}
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:17px}
+    .field{display:flex;flex-direction:column;gap:6px}
+    .field.full{grid-column:1/-1}
+    label{font-size:.9rem;font-weight:700;color:#334155}
+    input,select,textarea{width:100%;border:1px solid #cbd5e1;border-radius:9px;padding:11px 12px;background:white;color:var(--ink);outline:none}
+    input:focus,select:focus,textarea:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(24,169,153,.12)}
+    textarea{min-height:95px;resize:vertical}
+    .checkline{display:flex;align-items:flex-start;gap:10px;font-size:.88rem;color:#526174}
+    .checkline input{width:auto;margin-top:5px}
+    .form-message{margin-top:14px;padding:12px 14px;border-radius:9px;display:none}
+    .form-message.success{display:block;background:#e8f7ef;color:#17643b}
+    .form-message.error{display:block;background:#fff0ef;color:var(--red)}
+    .directory-tools{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+    .directory-tools input,.directory-tools select{max-width:260px}
+    .demo-label{font-size:.78rem;color:#8a5b11;background:#fff6df;border:1px solid #f3dfa9;border-radius:20px;padding:5px 10px;font-weight:750}
+    .donor-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .donor-card{background:white;border:1px solid var(--line);border-radius:14px;padding:20px}
+    .donor-top{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:12px}
+    .organ-tag{background:var(--mint);color:#08796e;border-radius:20px;padding:5px 10px;font-size:.78rem;font-weight:800}
+    .donor-card p{color:var(--muted);font-size:.9rem;margin:5px 0}
+    .empty{grid-column:1/-1;text-align:center;padding:30px;color:var(--muted);background:white;border:1px dashed #cbd5e1;border-radius:14px}
+    .features{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .safety{background:#fff;border-left:4px solid var(--teal);padding:20px 22px;border-radius:10px;box-shadow:var(--shadow)}
+    .safety strong{color:var(--navy)}
+    footer{background:var(--navy);color:#d8e4ec;padding:34px 0}
+    .footer-row{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:center}
+    footer small{color:#a9bac8}
+    .modal-backdrop{position:fixed;inset:0;background:rgba(7,20,34,.65);display:none;place-items:center;padding:20px;z-index:30}
+    .modal-backdrop.show{display:grid}
+    .modal{background:white;border-radius:16px;padding:26px;max-width:520px;width:100%;max-height:85vh;overflow:auto}
+    .modal-head{display:flex;justify-content:space-between;align-items:center}
+    .close{border:0;background:#eef2f6;border-radius:8px;padding:6px 10px;cursor:pointer}
+    @media(max-width:800px){.hero-grid{grid-template-columns:1fr}.hero-art{min-height:250px}.steps,.features,.donor-grid{grid-template-columns:1fr 1fr}nav{display:none;position:absolute;top:72px;left:0;right:0;background:white;padding:18px 4%;border-bottom:1px solid var(--line);flex-direction:column;align-items:flex-start}.menu-toggle{display:block}nav.open{display:flex}}
+    @media(max-width:560px){.steps,.features,.donor-grid,.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.hero{padding:60px 0}.heart{width:175px;height:175px;font-size:5rem}.float-note.one{right:2px}.float-note.two{left:2px}.panel{padding:20px}.directory-tools input,.directory-tools select{max-width:none;width:100%}}
+  </style>
+</head>
+<body>
+<header>
+  <div class="container nav">
+    <a class="brand" href="#home"><span class="brand-mark">♡</span> OrganLink</a>
+    <nav id="navLinks">
+      <a href="#how">How it works</a><a href="#register">Register</a><a href="#directory">Demo directory</a><a href="#about">About</a>
+    </nav>
+    <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation">☰</button>
+  </div>
+</header>
+
+<main>
+  <section class="hero" id="home">
+    <div class="container hero-grid">
+      <div>
+        <span class="eyebrow">AWARENESS • CONSENT • HOPE</span>
+        <h1>One decision can<br>give someone hope.</h1>
+        <p>OrganLink is an educational website prototype that explains organ donation and demonstrates how donor-interest registrations and organ-related enquiries could be organised.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#register">Register interest</a>
+          <a class="btn btn-outline" href="#how">Explore the process</a>
+        </div>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <div class="heart">♡</div>
+        <div class="float-note one">💚 Every life matters</div>
+        <div class="float-note two">🤝 Spread awareness</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="notice"><strong>Student project demonstration:</strong> This site does not register legally valid donor consent, verify medical eligibility, identify compatible recipients, or arrange organ allocation. Do not enter real medical or identifying information.</div>
+  </div>
+
+  <section id="how">
+    <div class="container">
+      <div class="section-head"><span class="kicker">How it works</span><h2>Awareness first. Safe action always.</h2><p>Learn the basic journey and understand why consent, medical review and authorised transplant systems matter.</p></div>
+      <div class="steps">
+        <article class="step"><div class="step-icon">📖</div><h3>1. Learn</h3><p>Understand organ donation, the importance of informed consent and the role of authorised transplant organisations.</p></article>
+        <article class="step"><div class="step-icon">📝</div><h3>2. Express interest</h3><p>Use the sample form to explore a donor-interest registration workflow. This demo stores sample entries only in this browser.</p></article>
+        <article class="step"><div class="step-icon">🏥</div><h3>3. Contact authorised services</h3><p>Patients and families should contact a registered transplant hospital or the appropriate government-authorised network.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="work-area" id="register">
+    <div class="container">
+      <div class="section-head"><span class="kicker">Project modules</span><h2>Registration & enquiry</h2><p>Try the forms with fictional details only. No information is sent to a server.</p></div>
+      <div class="tabs">
+        <button class="tab active" data-tab="donorForm">Donor interest</button>
+        <button class="tab" data-tab="finderForm">Organ enquiry</button>
+      </div>
+      <div class="form-wrap">
+        <div class="panel form-panel" id="donorForm">
+          <h3>Donor interest form</h3>
+          <p class="muted">A demonstration form for people who want to learn more about donation.</p>
+          <form id="donorRegistration">
+            <div class="form-grid">
+              <div class="field"><label for="donorName">Display name (fictional)</label><input id="donorName" maxlength="40" placeholder="Example: Demo Donor" required></div>
+              <div class="field"><label for="donorAge">Age range</label><select id="donorAge" required><option value="">Select age range</option><option>18–25</option><option>26–40</option><option>41–60</option><option>Above 60</option></select></div>
+              <div class="field"><label for="donorCity">City (fictional/demo)</label><input id="donorCity" maxlength="40" placeholder="Example: Chennai" required></div>
+              <div class="field"><label for="donorOrgan">Area of interest</label><select id="donorOrgan" required><option value="">Select an option</option><option>Organ donation awareness</option><option>Eye donation awareness</option><option>Blood donation awareness</option><option>Learn about all donation types</option></select></div>
+              <div class="field full"><label for="donorNote">Optional note (do not include medical details)</label><textarea id="donorNote" maxlength="180" placeholder="I would like to learn more about the donation process."></textarea></div>
+              <div class="field full"><label class="checkline"><input type="checkbox" id="donorConsent" required><span>I understand this is only a classroom demo and this form is not legal donor consent or a medical registration.</span></label></div>
+              <div class="field full"><button class="btn btn-primary" type="submit">Save demo registration</button></div>
+            </div>
+            <div class="form-message" id="donorMessage" role="status"></div>
+          </form>
+        </div>
+
+        <div class="panel form-panel" id="finderForm" hidden>
+          <h3>Organ-related enquiry</h3>
+          <p class="muted">A sample enquiry form. It does not search for or match real donors.</p>
+          <form id="organEnquiry">
+            <div class="form-grid">
+              <div class="field"><label for="enquiryName">Display name (fictional)</label><input id="enquiryName" maxlength="40" placeholder="Example: Demo Visitor" required></div>
+              <div class="field"><label for="enquiryOrgan">Topic of enquiry</label><select id="enquiryOrgan" required><option value="">Select topic</option><option>Kidney donation information</option><option>Liver donation information</option><option>Heart donation information</option><option>Lung donation information</option><option>Cornea donation information</option><option>General donation information</option></select></div>
+              <div class="field"><label for="enquiryCity">City</label><input id="enquiryCity" maxlength="40" placeholder="Example: Chennai" required></div>
+              <div class="field"><label for="enquiryContact">Preferred contact method</label><select id="enquiryContact" required><option value="">Select method</option><option>Contact a transplant hospital</option><option>Contact an authorised government network</option><option>Educational information only</option></select></div>
+              <div class="field full"><label class="checkline"><input type="checkbox" id="enquiryConsent" required><span>I understand this demo cannot provide medical advice, donor matching or organ allocation.</span></label></div>
+              <div class="field full"><button class="btn btn-primary" type="submit">Save demo enquiry</button></div>
+            </div>
+            <div class="form-message" id="enquiryMessage" role="status"></div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="directory">
+    <div class="container">
+      <div class="section-head"><span class="kicker">Demonstration data</span><h2>Sample donor-interest directory</h2><p>These fictional entries demonstrate search and filtering. They are not real donors and cannot be contacted.</p><span class="demo-label">FICTIONAL SAMPLE RECORDS</span></div>
+      <div class="directory-tools">
+        <input type="search" id="searchInput" placeholder="Search by name or city" aria-label="Search sample records">
+        <select id="organFilter" aria-label="Filter by interest"><option value="">All interests</option><option>Organ donation awareness</option><option>Eye donation awareness</option><option>Blood donation awareness</option><option>Learn about all donation types</option></select>
+      </div>
+      <div class="donor-grid" id="donorGrid" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <section id="about" style="background:#eef4f8">
+    <div class="container">
+      <div class="section-head"><span class="kicker">About the project</span><h2>Designed for awareness and learning</h2><p>OrganLink demonstrates the front-end components of a donor information platform.</p></div>
+      <div class="features">
+        <article class="feature"><div class="feature-icon">📱</div><h3>Responsive design</h3><p>Works on desktop, tablet and mobile screens.</p></article>
+        <article class="feature"><div class="feature-icon">🔎</div><h3>Search and filter</h3><p>Demonstrates browsing fictional records by name, city and interest.</p></article>
+        <article class="feature"><div class="feature-icon">🔐</div><h3>Privacy-aware demo</h3><p>Uses browser-local sample data only; it has no backend or public database.</p></article>
+      </div>
+      <div class="safety" style="margin-top:24px">
+        <strong>Important medical and legal note</strong>
+        <p class="muted" style="margin:6px 0 0">Organ suitability, consent, compatibility assessment and allocation must be handled by qualified medical professionals and authorised transplant systems under applicable law. Never use a public directory to offer, request, buy, sell or allocate organs. For urgent medical needs, contact a treating doctor or transplant hospital.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container footer-row">
+    <div><div class="brand" style="color:white"><span class="brand-mark">♡</span> OrganLink</div><small>Organ Donor & Finder — College Mini Project</small></div>
+    <small>© <span id="year"></span> OrganLink. Educational prototype only.</small>
+  </div>
+</footer>
+
+<script>
+  const sampleDonors = [
+    {name:"Demo Donor 01", city:"Chennai", interest:"Organ donation awareness", age:"26–40"},
+    {name:"Demo Donor 02", city:"Coimbatore", interest:"Eye donation awareness", age:"18–25"},
+    {name:"Demo Donor 03", city:"Madurai", interest:"Blood donation awareness", age:"41–60"},
+    {name:"Demo Donor 04", city:"Tiruchirappalli", interest:"Learn about all donation types", age:"26–40"},
+    {name:"Demo Donor 05", city:"Salem", interest:"Organ donation awareness", age:"Above 60"},
+    {name:"Demo Donor 06", city:"Chennai", interest:"Eye donation awareness", age:"26–40"}
+  ];
+
+  const donorGrid = document.getElementById("donorGrid");
+  const searchInput = document.getElementById("searchInput");
+  const organFilter = document.getElementById("organFilter");
+
+  function renderDonors() {
+    const query = searchInput.value.trim().toLowerCase();
+    const filter = organFilter.value;
+    const filtered = sampleDonors.filter(person =>
+      (person.name.toLowerCase().includes(query) || person.city.toLowerCase().includes(query)) &&
+      (!filter || person.interest === filter)
+    );
+    donorGrid.innerHTML = "";
+    if (!filtered.length) {
+      donorGrid.innerHTML = '<div class="empty">No sample records found. Try another search.</div>';
+      return;
+    }
+    filtered.forEach(person => {
+      const card = document.createElement("article");
+      card.className = "donor-card";
+      const top = document.createElement("div");
+      top.className = "donor-top";
+      const name = document.createElement("h3");
+      name.textContent = person.name;
+      const tag = document.createElement("span");
+      tag.className = "organ-tag";
+      tag.textContent = "Demo";
+      top.append(name, tag);
+      const city = document.createElement("p");
+      city.textContent = "📍 " + person.city;
+      const interest = document.createElement("p");
+      interest.textContent = "Interest: " + person.interest;
+      const age = document.createElement("p");
+      age.textContent = "Age range: " + person.age;
+      card.append(top, city, interest, age);
+      donorGrid.appendChild(card);
+    });
+  }
+  searchInput.addEventListener("input", renderDonors);
+  organFilter.addEventListener("change", renderDonors);
+  renderDonors();
+
+  document.querySelectorAll(".tab").forEach(tab => {
+    tab.addEventListener("click", () => {
+      document.querySelectorAll(".tab").forEach(item => item.classList.remove("active"));
+      tab.classList.add("active");
+      document.querySelectorAll(".form-panel").forEach(panel => panel.hidden = panel.id !== tab.dataset.tab);
+    });
+  });
+
+  function showMessage(elementId, message, type) {
+    const element = document.getElementById(elementId);
+    element.textContent = message;
+    element.className = "form-message " + type;
+  }
+  document.getElementById("donorRegistration").addEventListener("submit", event => {
+    event.preventDefault();
+    const entry = {
+      name: document.getElementById("donorName").value.trim(),
+      age: document.getElementById("donorAge").value,
+      city: document.getElementById("donorCity").value.trim(),
+      interest: document.getElementById("donorOrgan").value
+    };
+    if (!entry.name || !entry.age || !entry.city || !entry.interest || !document.getElementById("donorConsent").checked) {
+      showMessage("donorMessage", "Please complete all required fields and confirm the demo notice.", "error");
+      return;
+    }
+    // Demo-only: append to this page's in-memory directory; nothing is uploaded or persisted.
+    sampleDonors.unshift(entry);
+    renderDonors();
+    event.target.reset();
+    showMessage("donorMessage", "Demo registration added to the sample directory for this page session only.", "success");
+    document.getElementById("directory").scrollIntoView({behavior:"smooth"});
+  });
+
+  document.getElementById("organEnquiry").addEventListener("submit", event => {
+    event.preventDefault();
+    if (!document.getElementById("enquiryConsent").checked) {
+      showMessage("enquiryMessage", "Please confirm the demo notice.", "error");
+      return;
+    }
+    event.target.reset();
+    showMessage("enquiryMessage", "Demo enquiry received on this page. No real request was sent. Please contact an authorised transplant hospital for genuine medical guidance.", "success");
+  });
+
+  document.getElementById("menuToggle").addEventListener("click", () => {
+    document.getElementById("navLinks").classList.toggle("open");
+  });
+  document.querySelectorAll("#navLinks a").forEach(link => link.addEventListener("click", () => document.getElementById("navLinks").classList.remove("open")));
+  document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
