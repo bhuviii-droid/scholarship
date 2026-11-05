@@ -1,0 +1,143 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OrganLink - Organ Donor & Finder</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <nav class="navbar">
+        <h2>❤️ OrganLink</h2>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#register">Register</a></li>
+            <li><a href="#finder">Find Information</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+</header>
+
+<section class="hero" id="home">
+    <div class="hero-content">
+        <h1>Give the Gift of Life</h1>
+        <p>Organ donation awareness can inspire hope and save lives.</p>
+        <a href="#register" class="btn">Become a Donor</a>
+        <a href="#finder" class="btn secondary">Explore</a>
+    </div>
+</section>
+
+<section id="about" class="section">
+    <h2>About Organ Donation</h2>
+    <p>
+        Organ donation is the process of donating organs or tissues
+        to help people who need transplantation. OrganLink is an
+        educational platform designed to spread awareness and
+        demonstrate donor-interest registration.
+    </p>
+</section>
+
+<section class="section features">
+    <h2>Our Services</h2>
+
+    <div class="cards">
+        <div class="card">
+            <h3>❤️ Donor Registration</h3>
+            <p>Express your interest in learning about organ donation.</p>
+        </div>
+
+        <div class="card">
+            <h3>🔍 Organ Information</h3>
+            <p>Explore information about different types of organ donation.</p>
+        </div>
+
+        <div class="card">
+            <h3>🏥 Awareness</h3>
+            <p>Learn about authorised hospitals and transplant services.</p>
+        </div>
+    </div>
+</section>
+
+<section id="register" class="section">
+    <h2>Donor Interest Registration</h2>
+
+    <form id="donorForm">
+        <input type="text" id="name" placeholder="Enter Your Name" required>
+
+        <input type="number" id="age" placeholder="Enter Your Age"
+               min="18" max="120" required>
+
+        <input type="text" id="city" placeholder="Enter Your City" required>
+
+        <select id="organ" required>
+            <option value="">Select Donation Interest</option>
+            <option>Organ Donation Awareness</option>
+            <option>Eye Donation Awareness</option>
+            <option>Blood Donation Awareness</option>
+            <option>All Donation Types</option>
+        </select>
+
+        <label class="consent">
+            <input type="checkbox" id="consent" required>
+            I understand this is an educational demo, not legal donor consent.
+        </label>
+
+        <button type="submit" class="btn">Register Interest</button>
+    </form>
+
+    <p id="message"></p>
+</section>
+
+<section id="finder" class="section">
+    <h2>Explore Donation Information</h2>
+
+    <input type="text" id="search"
+           placeholder="Search donation information..."
+           onkeyup="searchOrgan()">
+
+    <div id="organList">
+        <div class="organ-card">
+            <h3>Kidney</h3>
+            <p>Learn about kidney donation and transplantation.</p>
+        </div>
+
+        <div class="organ-card">
+            <h3>Liver</h3>
+            <p>Learn about liver donation and transplantation.</p>
+        </div>
+
+        <div class="organ-card">
+            <h3>Heart</h3>
+            <p>Learn about heart donation and transplantation.</p>
+        </div>
+
+        <div class="organ-card">
+            <h3>Lungs</h3>
+            <p>Learn about lung donation and transplantation.</p>
+        </div>
+
+        <div class="organ-card">
+            <h3>Cornea</h3>
+            <p>Learn about eye tissue donation.</p>
+        </div>
+    </div>
+</section>
+
+<section id="contact" class="section">
+    <h2>Contact Us</h2>
+    <p>Email: organlink@example.com</p>
+    <p>OrganLink - Organ Donation Awareness Project</p>
+</section>
+
+<footer>
+    <p>© 2026 OrganLink | College Mini Project</p>
+    <p>Educational demonstration only. Not a real donor matching service.</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
